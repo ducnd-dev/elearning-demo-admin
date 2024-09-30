@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import CommonFilter from "../../components/CommonFilter";
-import api from "../../api/experts";
+import api from "../../api/courses";
 import { toast, ToastContainer } from "react-toastify";
 import { Table, Space } from 'antd';
 import { LIMIT, defaultURLImage } from "../../constants/api";
 import { useNavigate } from "react-router-dom";
 
-const ExpertList = () => {
+const CourseList = () => {
   const [datas, setDatas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState({
@@ -30,7 +30,7 @@ const ExpertList = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await api.getExperts(filter);
+        const res = await api.gets(filter);
         setDatas(res[0]);
       } catch (error) {
         toast.error(error.msg);
@@ -56,7 +56,7 @@ const ExpertList = () => {
   return (
     <>
       <ToastContainer />
-      <Breadcrumb pageName="Danh sách chuyên gia" />
+      <Breadcrumb pageName="Danh sách khóa học" />
       <CommonFilter filter={filter} setFilter={setFilter} sortBy={sortBy} />
       <Table
         columns={columns} dataSource={datas?.items} rowKey='id'
@@ -70,4 +70,4 @@ const ExpertList = () => {
   );
 };
 
-export default ExpertList;
+export default CourseList;

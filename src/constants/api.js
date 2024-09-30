@@ -1,6 +1,6 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
-const baseURL = 'https://api-green-gashouse.gu-bdlab.net/';
+const baseURL = 'http://khanhhung-api.cuongdesign.net/api';
 
 const headers = {
     'Content-Type': ' application/json',
@@ -34,7 +34,7 @@ axiosInstanceWithToken.interceptors.response.use(
         if (error.response.status === 401 && !originalRequest._retry) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/auth/signin';
+            // window.location.href = '/auth/signin';
         }
         return {
             success: false,
