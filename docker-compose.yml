@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  web:
+    image: "admin_greengas_house_fe"
+    build:
+      context: .
+    ports:
+      - 4067:80
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
