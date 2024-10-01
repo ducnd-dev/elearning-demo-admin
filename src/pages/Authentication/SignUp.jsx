@@ -332,7 +332,6 @@ const SignUp = () => {
                   </span>
                   Sign up with Google
                 </button>
-
                 <div className="mt-6 text-center">
                   <p>
                     Already have an account?{' '}

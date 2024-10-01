@@ -11,8 +11,10 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (data) => {
         const res = await api.signIn(data);
-        await setToken(res.data?.data?.accessToken);
-        const userData = await api.getUser(res.data?.data?.accessToken);
+        console.log(res);
+        
+        await setToken(res.data?.data?.access_token);
+        const userData = await api.getUser(res.data?.data?.access_token);
         setUser(userData?.data?.data);
         window.location.href = "/";
     };

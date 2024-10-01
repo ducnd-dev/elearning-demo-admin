@@ -27,7 +27,7 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     const { token, role } = useAuth();
-    if (!token || role !== "ADMIN") {
+    if (!token) {
       return <Navigate to="/auth/signin" />;
     }
     return children;
@@ -45,8 +45,8 @@ function App() {
         }>
           <Route index element={<Dashboard />} />
           <Route path='/courses' element={ <CourseList />} />
-          <Route path="/courses/:id" element={<CourseDetail />} />
           <Route path="/courses/create" element={<CreateCourse />} />
+          <Route path="/courses/:id" element={<CourseDetail />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>
         <Route path="/auth/signin" element={<SignIn />} />

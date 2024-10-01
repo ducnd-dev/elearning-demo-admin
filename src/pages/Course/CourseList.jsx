@@ -3,9 +3,9 @@ import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import CommonFilter from "../../components/CommonFilter";
 import api from "../../api/courses";
 import { toast, ToastContainer } from "react-toastify";
-import { Table, Space } from 'antd';
+import { Table, Space, Button } from 'antd';
 import { LIMIT, defaultURLImage } from "../../constants/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CourseList = () => {
   const [datas, setDatas] = useState([]);
@@ -31,7 +31,7 @@ const CourseList = () => {
       try {
         setLoading(true);
         const res = await api.gets(filter);
-        setDatas(res[0]);
+        setDatas(res.data);
       } catch (error) {
         toast.error(error.msg);
       } finally {
@@ -39,15 +39,18 @@ const CourseList = () => {
       }
     };
     fetchData();
+    return () => fetchData();
   }, [filter]);
 
   const columns = [
-    { title: 'Tên', dataIndex: 'name', key: 'name' },
+    { title: 'Tên', dataIndex: 'title', key: 'title' },
     {
       title: 'Hành động', key: 'id', dataIndex: 'id',
-      render: (text) => (
+      render: (id) => (
         <Space size="middle">
-          <button className="inline-flex items-center justify-center bg-primary py-2 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-10" onClick={() => navigate(`/experts/${text}`)}>Xem</button>
+          <Link to={`/courses/${id}`} className="text-primary">
+            <Button type="primary" className="bg-primary">Xem</Button>
+          </Link>
         </Space>
       ),
     },
@@ -59,7 +62,7 @@ const CourseList = () => {
       <Breadcrumb pageName="Danh sách khóa học" />
       <CommonFilter filter={filter} setFilter={setFilter} sortBy={sortBy} />
       <Table
-        columns={columns} dataSource={datas?.items} rowKey='id'
+        columns={columns} dataSource={datas} rowKey='id'
         pagination={{
           total: datas?.total, current: filter.currentPage,
           pageSize: filter.size, showSizeChanger: false,
