@@ -1,21 +1,26 @@
 import { Button, Form, Input, Switch, Upload, Card  } from 'antd';
 import React from 'react';
 import deleteIcon from '../../images/icon/delete.png';
+import apiUpload from '../../api/upload';
+import { mediaURL } from '../../constants/api';
+
 const courseMeaterial = {
     title: '',
-    descriptions: '',
+    description: '',
     is_free: false,
     is_important: false,
     is_featured: false,
     img: '',
     time: '',
-    video: '',
+    file_path: '',
 };
 
 const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
+  const [file, setFile] = React.useState(null);
+  const [videoFile, setVideoFile] = React.useState(null);
   const handleAddCoureMaterial = () => {
     const course_materials = [...detail.course_materials];
-    course_materials.push(courseMeaterial);
+    course_materials.unshift(detail.id ? { ...courseMeaterial, course_id: detail.id } : courseMeaterial);
     setDetail({ ...detail, course_materials });
   };
   const handleDeleteCourseMaterial = (index) => {
@@ -23,6 +28,12 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
     course_materials.splice(index, 1);
     setDetail({ ...detail, course_materials });
   };
+
+  const handleSetValueByKey = (index, key, value) => {
+    const course_materials = [...detail.course_materials];
+    course_materials[index][key] = value;
+    setDetail({ ...detail, course_materials });
+  }
 
   return (
     <Form layout="vertical" initialValues={detail}>
@@ -36,9 +47,8 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
       <Form.Item label="Bài">
         <Button
           type="primary"
-          className="bg-primary"
+          className="bg-primary mr-2"
           onClick={() => handleAddCoureMaterial()}
-          classNames="mr-2"
         >
           Thêm bài
         </Button>
@@ -51,25 +61,11 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
         </Button>
         {detail?.course_materials?.map((item, index) => (
           <Card  key={index} className="flex items-start gap-2 mt-2">
-            <div className='grid grid-cols-3 gap-4'>
+            <div className='grid grid-cols-3 gap-4 w-full'>
                 <Form.Item label="Tên bài">
                     <Input
                         value={item.title}
-                        onChange={(e) => {
-                        const course_materials = [...detail.course_materials];
-                        course_materials[index].title = e.target.value;
-                        setDetail({ ...detail, course_materials });
-                        }}
-                    />
-                </Form.Item>
-                <Form.Item label="Mô tả">
-                    <Input
-                        value={item.descriptions}
-                        onChange={(e) => {
-                        const course_materials = [...detail.course_materials];
-                        course_materials[index].descriptions = e.target.value;
-                        setDetail({ ...detail, course_materials });
-                        }}
+                        onChange={(e) => handleSetValueByKey(index, 'title', e.target.value)}
                     />
                 </Form.Item>
                 <Form.Item label="Thời gian">
@@ -82,71 +78,59 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
                         }}
                     />
                 </Form.Item>
+                <Form.Item label="Mô tả">
+                    <Input.TextArea
+                        value={item.description}
+                        onChange={(e) => handleSetValueByKey(index, 'description', e.target.value)}
+                    />
+                </Form.Item>
+              
                 <Form.Item label="Miễn phí">
                     <Switch 
                         checked={item.is_free}
-                        onChange={(e) => {
-                        const course_materials = [...detail.course_materials];
-                        course_materials[index].is_free = e;
-                        setDetail({ ...detail, course_materials });
-                        }}
+                        onChange={(e) => handleSetValueByKey(index, 'is_free', e)}
                     />
                 </Form.Item>
                 <Form.Item label="Quan trọng">
                     <Switch 
                         checked={item.is_important}
-                        onChange={(e) => {
-                        const course_materials = [...detail.course_materials];
-                        course_materials[index].is_important = e;
-                        setDetail({ ...detail, course_materials });
-                        }}
+                        onChange={(e) => handleSetValueByKey(index, 'is_important', e)}
                     />
                 </Form.Item>
                 <Form.Item label="Nổi bật">
                     <Switch 
                         checked={item.is_featured}
-                        onChange={(e) => {
-                        const course_materials = [...detail.course_materials];
-                        course_materials[index].is_featured = e;
-                        setDetail({ ...detail, course_materials });
-                        }}
+                        onChange={(e) => handleSetValueByKey(index, 'is_featured', e)}
                     />
                 </Form.Item>
 
                 <Form.Item label="Hình ảnh">
                     <Upload
                         showUploadList={false}
-                        beforeUpload={(file) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const course_materials = [...detail.course_materials];
-                            course_materials[index].img = e.target.result;
-                            setDetail({ ...detail, course_materials });
-                        };
-                        reader.readAsDataURL(file);
-                        return false;
+                        beforeUpload={async (file) => {
+                          const formData = new FormData();
+                          formData.append('file', file);
+                          const res = await apiUpload.uploadFile(formData);
+                          handleSetValueByKey(index, 'img', res.path);
                         }}
+
                     >
-                        <img src={item.img} alt="img" className="size-20" />
+                        <img src={`${mediaURL}${item.img}`} alt="img" className="size-20 aspect-square" />
                     </Upload>
                 </Form.Item>
                 <Form.Item label="Video">
                    <Upload
-                        className='border border-stroke'
                         showUploadList={false}
-                        beforeUpload={(file) => {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            const course_materials = [...detail.course_materials];
-                            course_materials[index].video = e.target.result;
-                            setDetail({ ...detail, course_materials });
-                        };
-                        reader.readAsDataURL(file);
-                        return false;
+                        beforeUpload={async (file) => {
+                          const formData = new FormData();
+                          formData.append('file', file);
+                          const res = await apiUpload.uploadFile(formData);
+                          handleSetValueByKey(index, 'file_path', res.path);
+                          return false;
                         }}
                     >
                         <Button >Click to Upload</Button>
-                        <video src={item.video} alt="video" className="size-20" />
+                        <video src={`${mediaURL}${item.file_path}`} alt="video" className="size-50 aspect-video" />
                     </Upload>
                 </Form.Item>
             </div>

@@ -1,7 +1,7 @@
 import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import api from '../../api/experts';
+import api from '../../api/courses';
 import apiUpload from '../../api/upload';
 import { useState } from 'react';
 import { Button, Form, Input, Spin } from 'antd';
@@ -15,34 +15,37 @@ const CreateCourse = () => {
     title: '',
     course_materials: [],
   });
-  const [file, setFile] = useState(null);
   const navigate = useNavigate();
 
   const handleCreate = async () => {
     try {
       setLoading(true);
-      if (file) {
-        const formData = new FormData();
-        formData.append('image', file);
-        const res = await apiUpload.uploadImage(formData);
-        setDetail({ ...detail, avatar_url: res.img });
-        await api.create({ ...detail, avatar_url: res.img });
-      } else {
-        await api.create({ ...detail, img: '' });
-      }
-      navigate('/experts');
+      // const course_materials = await Promise.all(
+      //   detail.course_materials.map(async (item) => {
+      //     if (item.img_file) {
+      //       const formData = new FormData();
+      //       formData.append('file', item.img_file);
+      //       const res = await apiUpload.uploadFile(formData);
+      //       return { ...item, img: res.data.path };
+      //     }
+      //     if (item.video_file) {
+      //       const formData = new FormData();
+      //       formData.append('file', item.video_file);
+      //       const res = await apiUpload.uploadFile(formData);
+      //       return { ...item, file_path: res.data.path };
+      //     }
+      //     return item;
+      //   })
+      // );
+      // setDetail({ ...detail, course_materials: course_materials });
+      await api.create({ ...detail});
+      navigate('/courses');
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   };
-
-  const handleUpload = async (files) => {
-    setDetail({ ...detail, avatar_url: URL.createObjectURL(files[0]) });
-    setFile(files[0]);
-  };
-
   return (
     <>
       <ToastContainer />
@@ -55,7 +58,7 @@ const CreateCourse = () => {
         <CoursesForm
             detail={detail}
             setDetail={setDetail}
-            handleCreate={handleCreate}
+            handleSubmit={handleCreate}
         />
       </Spin>
     </>

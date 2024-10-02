@@ -24,8 +24,6 @@ const CourseDetail = () => {
             try {
                 setLoading(true);
                 const res = await api.get(id);
-                console.log(res);
-
                 setDetail(res);
             } catch (error) {
                 toast.error(error.msg);
@@ -38,17 +36,12 @@ const CourseDetail = () => {
 
     const handleUpdate = async () => {
         try {
+            
             setLoading(true);
-            if (file) {
-                const formData = new FormData();
-                formData.append('image', file);
-                const res = await apiUpload.uploadImage(formData);
-                setDetail({ ...detail, avatar_url: res.img });
-                await api.update(id, { ...detail, avatar_url: res.img });
-            } else {
-                await api.update(id, {...detail, img: ""});
-            }
+            await api.update(id,{ ...detail});
             toast.success("Update expert successfully!");
+            navigate('/courses');
+
         } catch (error) {
             toast.error(error.msg);
         } finally {
@@ -63,7 +56,7 @@ const CourseDetail = () => {
             <CoursesForm
                 detail={detail}
                 setDetail={setDetail}
-                handleCreate={handleUpdate}
+                handleSubmit={handleUpdate}
             />
             </Spin>
 
