@@ -27,9 +27,9 @@ function App() {
 
   const ProtectedRoute = ({ children }) => {
     const { token, role } = useAuth();
-    if (!token) {
-      return <Navigate to="/auth/signin" />;
-    }
+    // if (!token) {
+    //   return <Navigate to="/auth/signin" />;
+    // }
     return children;
   };
 
