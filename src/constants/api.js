@@ -1,6 +1,6 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
-const baseURL = 'http://localhost:8000/api';
+const baseURL = 'http://khanhhung-api.cuongdesign.net/api';
 
 const headers = {
     'Content-Type': ' application/json',
@@ -28,7 +28,7 @@ axiosInstanceWithToken.interceptors.response.use(
         const originalRequest = error.config;
 
         if (error.response.status === 403 && !originalRequest._retry) {
-            window.location.href = '/unauthorized'; 
+            window.location.href = '/unauthorized';
         }
 
         if (error.response.status === 401 && !originalRequest._retry) {
