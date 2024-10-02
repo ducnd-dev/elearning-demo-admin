@@ -25,7 +25,7 @@ const CourseDetail = () => {
                 setLoading(true);
                 const res = await api.get(id);
                 console.log(res);
-                
+
                 setDetail(res);
             } catch (error) {
                 toast.error(error.msg);
@@ -39,33 +39,14 @@ const CourseDetail = () => {
     const handleUpdate = async () => {
         try {
             setLoading(true);
-            if(!detail.name) {
-                toast.error('Vui lòng nhập tên chuyên gia');
-                return;
-            }
-
-            if(!detail.user_id) {
-                toast.error('Vui lòng nhập user_id');
-                return;
-            }
-
-            if(!detail.organisation_name) {
-                toast.error('Vui lòng nhập tổ chức');
-                return;
-            }
-
-            if(!detail.email) {
-                toast.error('Vui lòng nhập email');
-                return;
-            }
             if (file) {
                 const formData = new FormData();
                 formData.append('image', file);
                 const res = await apiUpload.uploadImage(formData);
                 setDetail({ ...detail, avatar_url: res.img });
-                await api.updateExpert(id, { ...detail, avatar_url: res.img });
+                await api.update(id, { ...detail, avatar_url: res.img });
             } else {
-                await api.updateExpert(id, {...detail, img: ""});
+                await api.update(id, {...detail, img: ""});
             }
             toast.success("Update expert successfully!");
         } catch (error) {
@@ -77,15 +58,15 @@ const CourseDetail = () => {
     return (
         <>
             <ToastContainer />
-            <Breadcrumb pageName="Chi tiết chuyên gia" prePage="Danh sách chuyên gia" preLink="/experts"/>
+            <Breadcrumb pageName="Chi tiết khóa học" prePage="Danh sách khóa học" preLink="/courses"/>
             <Spin tip="Đang tải..." spinning={loading}>
             <CoursesForm
-                detail={detail} 
-                setDetail={setDetail} 
+                detail={detail}
+                setDetail={setDetail}
                 handleCreate={handleUpdate}
             />
             </Spin>
-           
+
         </>
     );
 }
