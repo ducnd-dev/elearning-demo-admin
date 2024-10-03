@@ -1,6 +1,6 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
-const baseURL = 'http://localhost:8000/api';
+const baseURL = 'https://khanhhung-api.cuongdesign.net/api';
 const headers = {
     'Content-Type': ' application/json',
     accept: 'application/json',
@@ -48,4 +48,4 @@ export const LIMIT = 10;
 
 export const defaultURLImage = 'https://static.thenounproject.com/png/4595376-200.png';
 
-export const mediaURL = 'http://localhost:8000';
+export const mediaURL = 'https://khanhhung-api.cuongdesign.net';
