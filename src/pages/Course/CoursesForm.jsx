@@ -84,21 +84,21 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
                         onChange={(e) => handleSetValueByKey(index, 'description', e.target.value)}
                     />
                 </Form.Item>
-              
+
                 <Form.Item label="Miễn phí">
-                    <Switch 
+                    <Switch
                         checked={item.is_free}
                         onChange={(e) => handleSetValueByKey(index, 'is_free', e)}
                     />
                 </Form.Item>
                 <Form.Item label="Quan trọng">
-                    <Switch 
+                    <Switch
                         checked={item.is_important}
                         onChange={(e) => handleSetValueByKey(index, 'is_important', e)}
                     />
                 </Form.Item>
                 <Form.Item label="Nổi bật">
-                    <Switch 
+                    <Switch
                         checked={item.is_featured}
                         onChange={(e) => handleSetValueByKey(index, 'is_featured', e)}
                     />
@@ -115,8 +115,9 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
                         }}
 
                     >
-                        <img src={`${mediaURL}${item.img}`} alt="img" className="size-20 aspect-square" />
+                        <Button >Click to Upload thumbnail</Button>
                     </Upload>
+                        <img src={`${mediaURL}${item.img}`} alt="img" className="size-50 aspect-square" />
                 </Form.Item>
                 <Form.Item label="Video">
                    <Upload
@@ -129,9 +130,9 @@ const CoursesForm = ({ detail, setDetail, handleSubmit }) => {
                           return false;
                         }}
                     >
-                        <Button >Click to Upload</Button>
-                        <video src={`${mediaURL}${item.file_path}`} alt="video" className="size-50 aspect-video" />
+                        <Button >Click to Upload video</Button>
                     </Upload>
+                    <video src={`${mediaURL}${item.file_path}`} controls className="aspect-video" />
                 </Form.Item>
             </div>
             <img
