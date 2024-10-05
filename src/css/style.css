@@ -218,3 +218,7 @@ span.flatpickr-weekday,
 [x-cloak] {
   display: none !important;
 }
+
+.ant-btn-primary {
+  @apply bg-primary text-white;
+}
