@@ -12,6 +12,8 @@ import UnAuth from './pages/Authentication/UnAuth';
 import CourseList from './pages/Course/CourseList';
 import CourseDetail from './pages/Course/CourseDetail';
 import CreateCourse from './pages/Course/CreateCourse';
+import CategoriesList from './pages/Category/CourseList';
+import CategoriesDetail from './pages/Category/CategoriesDetail';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -47,6 +49,9 @@ function App() {
           <Route path='/courses' element={ <CourseList />} />
           <Route path="/courses/create" element={<CreateCourse />} />
           <Route path="/courses/:id" element={<CourseDetail />} />
+          <Route path='/categories' element={ <CategoriesList />} />
+          {/* <Route path="/categories/create" element={<CreateCategories />} /> */}
+          <Route path="/categories/:id" element={<CategoriesDetail />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>
         <Route path="/auth/signin" element={<SignIn />} />

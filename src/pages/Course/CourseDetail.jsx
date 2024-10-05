@@ -1,13 +1,9 @@
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
-import deleteIcon from "../../images/icon/delete.png";
-import addImg from "../../images/icon/add-link.png";
-import addSkill from "../../images/icon/skill-icon.png";
 import api from "../../api/courses";
-import apiUpload from "../../api/upload";
 import { useEffect, useState } from "react";
-import { Modal, Spin } from "antd";
+import { Spin } from "antd";
 import { defaultURLImage } from "../../constants/api";
 import CoursesForm from "./CoursesForm";
 

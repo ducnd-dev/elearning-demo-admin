@@ -8,7 +8,7 @@ import { LIMIT, defaultURLImage } from "../../constants/api";
 import { Link, useNavigate } from "react-router-dom";
 import { InfoCircleOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-const CourseList = () => {
+const CategoriesList = () => {
   const [datas, setDatas] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openMoalCreate, setOpenMoalCreate] = useState(false);
@@ -155,4 +155,4 @@ const CourseList = () => {
   );
 };
 
-export default CourseList;
+export default CategoriesList;
