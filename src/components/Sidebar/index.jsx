@@ -58,14 +58,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   return (
     <aside
       ref={sidebar}
-      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-black duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      className={`absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-gradient-to-b from-pink-700 to-pink-400 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to="/">
-          <img src={Logo} alt="Logo" />
-        </NavLink>
+        <div className="flex justify-center w-full">
+          <NavLink to="/">
+            <img className='max-w-48' src="https://khanhhung.academy/learn/assets/images/logo-png.png" alt="Logo" />
+          </NavLink>
+        </div>
 
         <button
           ref={trigger}
@@ -96,7 +98,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-white">
               MENU
             </h3>
 
@@ -104,7 +106,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
               <li>
                 <NavLink
                   to="/"
-                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname == "/" && 'bg-graydark dark:bg-meta-4'
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-pink-100 hover:text-black2 dark:hover:bg-meta-4 ${pathname == "/" ? 'bg-white text-black2 dark:bg-meta-4' : 'text-bodydark1'
                     }`}
                 >
                   <svg
@@ -139,7 +141,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           </div>
 
           <div>
-            <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
+            <h3 className="mb-4 ml-4 text-sm font-semibold text-white">
               QUẢN LÝ
             </h3>
 
@@ -148,7 +150,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <li key={item.id}>
                   <NavLink
                     to={item.link}
-                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.startsWith(item.link) && 'bg-graydark dark:bg-meta-4'
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium duration-300 ease-in-out hover:bg-pink-100 hover:text-black2 dark:hover:bg-meta-4 ${pathname.startsWith(item.link) ? 'bg-white text-black2 dark:bg-meta-4' : 'text-bodydark1'
                       }`}
                   >
                     {item.icon}

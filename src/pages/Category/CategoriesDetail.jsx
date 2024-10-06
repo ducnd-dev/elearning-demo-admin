@@ -169,40 +169,46 @@ const CategoriesDetail = () => {
                         })) || []}
                     />
                 </div>
-                <Modal title="Update course" open={openModalUpdate} onCancel={() => setOpenModalUpdate(false)}
+                <Modal title="Cập nhật khóa học" open={openModalUpdate} onCancel={() => setOpenModalUpdate(false)}
                     onOk={() => {
                         formUpdate.submit();
                         setOpenMoalCreate(false);
                     }}
                     confirmLoading={loading}
+                    centered
+                    okText="Cập nhật"
+                    cancelText="Hủy"
                 >
-                    <Form
-                        form={formUpdate}
-                        name="form_in_modal"
-                        onFinish={
-                            async (values) => {
-                                try {
-                                    setLoading(true);
-                                    await apiCourse.update(itemSelected.id, values);
-                                    toast.success("Update successfully!");
-                                    setDetail({ ...detail, courses: detail.courses.map(item => item.id === itemSelected.id ? { ...item, title: values.title } : item) });
-                                    setOpenModalUpdate(false);
-                                } catch (error) {
-                                    toast.error(error.msg);
-                                } finally {
-                                    setLoading(false)
+                    <div className="my-4">
+                        <Form
+                            form={formUpdate}
+                            name="form_in_modal"
+                            onFinish={
+                                async (values) => {
+                                    try {
+                                        setLoading(true);
+                                        await apiCourse.update(itemSelected.id, values);
+                                        toast.success("Update successfully!");
+                                        setDetail({ ...detail, courses: detail.courses.map(item => item.id === itemSelected.id ? { ...item, title: values.title } : item) });
+                                        setOpenModalUpdate(false);
+                                    } catch (error) {
+                                        toast.error(error.msg);
+                                    } finally {
+                                        setLoading(false)
+                                    }
                                 }
                             }
-                        }
-                    >
-                        <Form.Item
-                            name="title"
-                            label="Tên phần"
-                            rules={[{ required: true, message: 'Please input the title of collection!' }]}
+                            layout="vertical"
                         >
-                            <Input />
-                        </Form.Item>
-                    </Form>
+                            <Form.Item
+                                name="title"
+                                label="Tên phần"
+                                rules={[{ required: true, message: 'Please input the title of collection!' }]}
+                            >
+                                <Input.TextArea />
+                            </Form.Item>
+                        </Form>
+                    </div>
                 </Modal>
             </Spin>
         </>

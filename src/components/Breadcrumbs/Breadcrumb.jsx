@@ -14,7 +14,7 @@ const Breadcrumb = ({ pageName, prePage, preLink }) => {
               {prePage ? prePage : "Trang chủ"} /
             </Link>
           </li>
-          <li className="font-medium text-primary">{pageName}</li>
+          <li className="font-bold text-primary">{pageName}</li>
         </ol>
       </nav>
     </div>

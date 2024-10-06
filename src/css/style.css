@@ -4,12 +4,11 @@
 
 @layer base {
   body {
-    @apply font-satoshi font-normal text-base text-body bg-whiten relative z-1;
+    @apply font-Inter font-normal text-base text-body bg-whiten relative z-1;
   }
 
-  /* setup tất cả về font nomal */
-  body, button, input, optgroup, select, textarea {
-    font-family: 'revert', sans-serif;
+  body, button, input, optgroup, select, textarea, span, tr, td, th, a, div, label {
+    font-family: 'Inter', sans-serif !important;
   }
 }
 

@@ -6,7 +6,7 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      satoshi: ['Satoshi', 'sans-serif'],
+      Inter: ['Inter', 'sans-serif'],
     },
     screens: {
       '2xsm': '375px',
@@ -20,12 +20,12 @@ module.exports = {
         transparent: 'transparent',
         white: '#FFFFFF',
         black: '#1C2434',
-        'black-2': '#010101',
+        black2: '#010101',
         body: '#64748B',
         bodydark: '#AEB7C0',
         bodydark1: '#DEE4EE',
         bodydark2: '#8A99AF',
-        primary: '#3C50E0',
+        primary: '#be185d',
         secondary: '#80CAEE',
         stroke: '#E2E8F0',
         gray: '#EFF4FB',

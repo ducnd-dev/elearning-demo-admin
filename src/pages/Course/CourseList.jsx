@@ -104,7 +104,7 @@ const CourseList = () => {
       <Breadcrumb pageName="Danh sách khóa học" />
       <CommonFilter filter={filter} setFilter={setFilter} sortBy={sortBy} />
       <div className="flex justify-end">
-        <Button className="mb-4 bg-blue-800 text-white" onClick={() => setOpenMoalCreate(true)}>+ Thêm mới</Button>
+        <Button className="mb-4 bg-pink-700 text-white" onClick={() => setOpenMoalCreate(true)}>+ Thêm mới</Button>
         <Modal
           title="Tạo mới khóa học"
           open={openMoalCreate}

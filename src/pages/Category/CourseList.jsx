@@ -46,7 +46,9 @@ const CategoriesList = () => {
   }, [filter]);
 
   const columns = [
-    { title: 'Tên', dataIndex: 'name', key: 'name' },
+    { title: 'Tên', dataIndex: 'name', key: 'name',
+      sorter: (a, b) => a.name.localeCompare(b.name),
+    },
     {
       title: 'Nội dung', dataIndex: 'courses', key: 'courses',
       render: (courses) => (
@@ -62,9 +64,15 @@ const CategoriesList = () => {
         </div>
       )
     },
-    { title: 'Số lượng bài giảng', dataIndex: 'course_materials_count', key: 'course_materials_count' },
-    { title: 'Ngày tạo', dataIndex: 'created_at', key: 'created_at', render: (created_at) => new Date(created_at).toLocaleDateString() },
-    { title: 'Ngày cập nhật', dataIndex: 'updated_at', key: 'updated_at', render: (updated_at) => new Date(updated_at).toLocaleDateString() },
+    { title: 'Số lượng bài giảng', dataIndex: 'course_materials_count', key: 'course_materials_count',
+      sorter: (a, b) => a.course_materials_count - b.course_material
+    },
+    { title: 'Ngày tạo', dataIndex: 'created_at', key: 'created_at', render: (created_at) => new Date(created_at).toLocaleDateString(),
+      sorter: (a, b) => new Date(a.created_at) - new Date(b.created_at)
+    },
+    { title: 'Ngày cập nhật', dataIndex: 'updated_at', key: 'updated_at', render: (updated_at) => new Date(updated_at).toLocaleDateString(),
+      sorter: (a, b) => new Date(a.updated_at) - new Date(b.updated_at)
+    },
     {
       title: 'Hành động', key: 'id', dataIndex: 'id',
       render: (id, record) => (
@@ -104,7 +112,7 @@ const CategoriesList = () => {
       <Breadcrumb pageName="Danh sách khóa học" />
       <CommonFilter filter={filter} setFilter={setFilter} sortBy={sortBy} />
       <div className="flex justify-end">
-        <Button className="mb-4 bg-blue-800 text-white" onClick={() => setOpenMoalCreate(true)}>+ Thêm mới</Button>
+        <Button className="mb-4 bg-pink-700 text-white" onClick={() => setOpenMoalCreate(true)}>+ Thêm mới</Button>
         <Modal
           title="Tạo mới khóa học"
           open={openMoalCreate}
@@ -114,7 +122,7 @@ const CategoriesList = () => {
           okText="Tạo mới"
           centered
         >
-          <div className="my-8">
+          <div className="my-4">
             <Form
               name="basic"
               form={form}
@@ -131,13 +139,14 @@ const CategoriesList = () => {
                   toast.error(error.msg);
                 }
               }}
+              layout="vertical"
             >
               <Form.Item
                 label="Tên khóa học"
                 name="name"
                 rules={[{ required: true, message: 'Vui lòng nhập tên khóa học!' }]}
               >
-                <Input placeholder="Nhập tên khóa học" />
+                <Input.TextArea placeholder="Nhập tên khóa học" />
               </Form.Item>
             </Form>
           </div>
