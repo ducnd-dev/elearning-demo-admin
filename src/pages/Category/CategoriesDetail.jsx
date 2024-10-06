@@ -8,32 +8,38 @@ import apiMaterial from "../../api/course_materials";
 import { useNavigate, useParams } from "react-router-dom";
 import { InfoCircleOutlined, EditOutlined, DeleteOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { defaultURLImage } from "../../constants/api";
+import ModalCourseMaterial from "./ModalCourseMaterial";
 
 const CategoriesDetail = () => {
     const [loading, setLoading] = useState(false);
     const [detail, setDetail] = useState({});
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
+    const [openMoalCreate, setOpenMoalCreate] = useState(false);
+    const [openModalMaterial, setOpenModalMaterial] = useState(false);
+    const [openEditMaterial, setOpenEditMaterial] = useState(false);
     const [itemSelected, setItemSelected] = useState({});
     const { id } = useParams();
     const [form] = Form.useForm();
     const [formUpdate] = Form.useForm();
+    const [formCouses] = Form.useForm();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-                const res = await api.get(id);
-                setDetail(res.data);
-                form.setFieldsValue(res.data);
-            } catch (error) {
-                toast.error(error.msg);
-            } finally {
-                setLoading(false)
-            }
-        };
         fetchData();
     }, [id]);
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const res = await api.get(id);
+            setDetail(res.data);
+            form.setFieldsValue(res.data);
+        } catch (error) {
+            toast.error(error.msg);
+        } finally {
+            setLoading(false)
+        }
+    };
 
     return (
         <>
@@ -79,7 +85,7 @@ const CategoriesDetail = () => {
                         direction="vertical"
                         current={1}
                         items={detail?.courses?.map((course, index) => ({
-                            title: <div className="font-bold">
+                            title: <div className="font-bold text-black2">
                                 Phần {index + 1}: {course.title}
                                 <Tooltip title="Chỉnh sửa tên phần">
                                     <EditOutlined className="ml-2 text-blue-500"
@@ -91,7 +97,10 @@ const CategoriesDetail = () => {
                                     />
                                 </Tooltip>
                                 <Tooltip title="Thêm mới bài học">
-                                    <AppstoreAddOutlined className="ml-2 text-green-500 cursor-pointer" />
+                                    <AppstoreAddOutlined className="ml-2 text-green-500 cursor-pointer" onClick={() => {
+                                        setItemSelected(course);
+                                        setOpenModalMaterial(true);
+                                    }} />
                                 </Tooltip>
                                 <Tooltip title="Xóa phần">
                                     <Popconfirm
@@ -102,7 +111,7 @@ const CategoriesDetail = () => {
                                                 setLoading(true);
                                                 await apiCourse.delete(course.id);
                                                 toast.success("Xóa thành công");
-                                                setDetail({ ...detail, courses: detail.courses.filter(item => item.id !== course.id) });
+                                                fetchData();
                                                 setLoading(false);
                                             }
                                             catch (error) {
@@ -124,7 +133,12 @@ const CategoriesDetail = () => {
                                             <div>
                                                 {material.title}
                                                 <Tooltip title="Chỉnh sửa video">
-                                                    <EditOutlined className="ml-2 text-blue-500 cursor-pointer" />
+                                                    <EditOutlined className="ml-2 text-blue-500 cursor-pointer" onClick={
+                                                        () => {
+                                                            setItemSelected(material);
+                                                            setOpenEditMaterial(true);
+                                                        }
+                                                    }/>
                                                 </Tooltip>
 
                                                 <Popconfirm
@@ -135,7 +149,7 @@ const CategoriesDetail = () => {
                                                             setLoading(true);
                                                             await apiMaterial.deleteMaterial(material.id);
                                                             toast.success("Xóa thành công");
-                                                            setDetail({ ...detail, courses: detail.courses.map(item => item.id === course.id ? { ...item, course_materials: item.course_materials.filter(item => item.id !== material.id) } : item) });
+                                                            fetchData();
                                                             setLoading(false);
                                                         }
                                                         catch (error) {
@@ -168,6 +182,54 @@ const CategoriesDetail = () => {
                             </div>
                         })) || []}
                     />
+                    <div>
+                        <Button type="primary" className="ml-6"
+                            onClick={() => {
+                                setOpenMoalCreate(true);
+                            }}
+                        >+ Thêm phần</Button>
+                        <Modal title="Thêm phần" open={openMoalCreate} onCancel={() => setOpenMoalCreate(false)}
+                            onOk={() => {
+                                formCouses.submit();
+                                setOpenMoalCreate(false);
+                            }}
+                            confirmLoading={loading}
+                            centered
+                            okText="Thêm"
+                            cancelText="Hủy"
+                        >
+                            <div className="my-4">
+                                <Form
+                                    form={formCouses}
+                                    name="form_in_modal"
+                                    onFinish={
+                                        async (values) => {
+                                            try {
+                                                setLoading(true);
+                                                await apiCourse.create({ ...values, category_id: id });
+                                                toast.success("Thêm thành công!");
+                                                fetchData();
+                                                setOpenMoalCreate(false);
+                                            } catch (error) {
+                                                toast.error(error.msg);
+                                            } finally {
+                                                setLoading(false)
+                                            }
+                                        }
+                                    }
+                                    layout="vertical"
+                                >
+                                    <Form.Item
+                                        name="title"
+                                        label="Tên phần"
+                                        rules={[{ required: true, message: 'Please input the title of collection!' }]}
+                                    >
+                                        <Input.TextArea />
+                                    </Form.Item>
+                                </Form>
+                            </div>
+                        </Modal>
+                    </div>
                 </div>
                 <Modal title="Cập nhật khóa học" open={openModalUpdate} onCancel={() => setOpenModalUpdate(false)}
                     onOk={() => {
@@ -189,7 +251,7 @@ const CategoriesDetail = () => {
                                         setLoading(true);
                                         await apiCourse.update(itemSelected.id, values);
                                         toast.success("Update successfully!");
-                                        setDetail({ ...detail, courses: detail.courses.map(item => item.id === itemSelected.id ? { ...item, title: values.title } : item) });
+                                        fetchData();
                                         setOpenModalUpdate(false);
                                     } catch (error) {
                                         toast.error(error.msg);
@@ -210,6 +272,34 @@ const CategoriesDetail = () => {
                         </Form>
                     </div>
                 </Modal>
+
+                <ModalCourseMaterial show={openModalMaterial} handleClose={() => setOpenModalMaterial(false)} title="Thêm mới bài học" handleSubmit={async (values) => {
+                    try {
+                        setLoading(true);
+                        await apiMaterial.create({ ...values, course_id: itemSelected.id });
+                        toast.success("Thêm thành công!");
+                        fetchData();
+                        setOpenModalMaterial(false);
+                    } catch (error) {
+                        toast.error(error.msg);
+                    } finally {
+                        setLoading(false)
+                    }
+                }}/>
+
+                <ModalCourseMaterial show={openEditMaterial} handleClose={() => setOpenEditMaterial(false)} formData={itemSelected} title="Chỉnh sửa bài học" handleSubmit={async (values) => {
+                    try {
+                        setLoading(true);
+                        await apiMaterial.update(itemSelected.id, values);
+                        toast.success("Chỉnh sửa thành công!");
+                        fetchData();
+                        setOpenEditMaterial(false);
+                    } catch (error) {
+                        toast.error(error.msg);
+                    } finally {
+                        setLoading(false)
+                    }
+                }}/>
             </Spin>
         </>
     );
