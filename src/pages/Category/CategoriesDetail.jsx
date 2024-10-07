@@ -6,9 +6,10 @@ import api from "../../api/categories";
 import apiCourse from "../../api/courses";
 import apiMaterial from "../../api/course_materials";
 import { useNavigate, useParams } from "react-router-dom";
-import { InfoCircleOutlined, EditOutlined, DeleteOutlined, AppstoreAddOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, AppstoreAddOutlined } from '@ant-design/icons';
 import { defaultURLImage } from "../../constants/api";
 import ModalCourseMaterial from "./ModalCourseMaterial";
+import { getImageUrl } from "../../common";
 
 const CategoriesDetail = () => {
     const [loading, setLoading] = useState(false);
@@ -128,7 +129,7 @@ const CategoriesDetail = () => {
                             description: <div>
                                 {course.course_materials?.map((material) => (
                                     <div key={material.id} className="flex my-2">
-                                        <img src={material?.img ? material?.img : defaultURLImage} className="w-24 mr-2" alt="" />
+                                        <img src={getImageUrl(material?.img)} className="w-24 mr-2" alt="" />
                                         <div className="text-black">
                                             <div>
                                                 {material.title}
@@ -147,7 +148,7 @@ const CategoriesDetail = () => {
                                                     onConfirm={async () => {
                                                         try {
                                                             setLoading(true);
-                                                            await apiMaterial.deleteMaterial(material.id);
+                                                            await apiMaterial.delete(material.id);
                                                             toast.success("Xóa thành công");
                                                             fetchData();
                                                             setLoading(false);
@@ -275,11 +276,11 @@ const CategoriesDetail = () => {
 
                 <ModalCourseMaterial show={openModalMaterial} handleClose={() => setOpenModalMaterial(false)} title="Thêm mới bài học" handleSubmit={async (values) => {
                     try {
+                        setOpenModalMaterial(false);
                         setLoading(true);
                         await apiMaterial.create({ ...values, course_id: itemSelected.id });
                         toast.success("Thêm thành công!");
                         fetchData();
-                        setOpenModalMaterial(false);
                     } catch (error) {
                         toast.error(error.msg);
                     } finally {
@@ -289,11 +290,12 @@ const CategoriesDetail = () => {
 
                 <ModalCourseMaterial show={openEditMaterial} handleClose={() => setOpenEditMaterial(false)} formData={itemSelected} title="Chỉnh sửa bài học" handleSubmit={async (values) => {
                     try {
+                        setOpenEditMaterial(false);
                         setLoading(true);
+                        console.log(values);
                         await apiMaterial.update(itemSelected.id, values);
                         toast.success("Chỉnh sửa thành công!");
                         fetchData();
-                        setOpenEditMaterial(false);
                     } catch (error) {
                         toast.error(error.msg);
                     } finally {

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Drawer, Form, Button, Input, Upload, Checkbox, Image } from "antd";
 import apiUpload from '../../api/upload';
 import { getImageUrl } from '../../common';
@@ -16,11 +16,14 @@ const initialValues = {
 
 const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initialValues, title }) => {
     const [form] = Form.useForm();
-    console.log(formData);
+    const [image, setImage] = useState(formData.img);
+    const [video, setVideo] = useState(formData.file_path);
 
     useEffect(() => {
         form.resetFields();
         form.setFieldsValue(formData);
+        setImage(formData.img);
+        setVideo(formData.file_path);
     }, [formData]);
 
     const handleUpload = async (file) => {
@@ -47,7 +50,6 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
                 layout="vertical"
                 onFinish={(values) => {
                     handleSubmit(values)
-                    form.resetFields();
                 }}
                 autoComplete="off"
             >
@@ -73,49 +75,52 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
                 >
                     <Input placeholder='Nhập thời lượng' />
                 </Form.Item>
-
                 <Form.Item label="Hình ảnh" name='img'>
-                    <Upload
-                        showUploadList={false}
-                        action={async (file) => {
-                            const res = await handleUpload(file);
-                            form.setFieldsValue({ img: res });
-                        }}
-                    >
-                        <div className='flex'>
+                    <div className='flex'>
+                        <Upload
+                            showUploadList={false}
+                            action={async (file) => {
+                                const res = await handleUpload(file);
+                                form.setFieldsValue({ img: res });
+                                setImage(res);
+                            }}
+                            accept='image/*'
+                        >
                             <Button className='w-40 h-40 border-dashed rounded-xl'>
                                 <div className='text-center'>+ Click để tải lên <br /> hình ảnh</div>
                             </Button>
-                            {/* <div className='ml-4 h-40'>
-                                {form.getFieldValue('img') && <Image src={getImageUrl(form.getFieldValue('img'))} alt="img" height={160}/>}
-                            </div> */}
+                        </Upload>
+                        <div className='ml-4 h-40'>
+                            {image && <Image src={getImageUrl(image)} alt="img" height={160} />}
                         </div>
-                    </Upload>
+                    </div>
                 </Form.Item>
-                <Form.Item label="Video">
-                    <Upload
-                        showUploadList={false}
-                        beforeUpload={async (file) => {
-                            const res = await handleUpload(file);
-                            form.setFieldsValue({ file_path: res });
-                        }}
-                    >
-                        <div className='flex'>
+                
+                <Form.Item label="Video" name='file_path'>
+                    <div className='flex'>
+                        <Upload
+                            showUploadList={false}
+                            beforeUpload={async (file) => {
+                                const res = await handleUpload(file);
+                                form.setFieldsValue({ file_path: res });
+                                setVideo(res);
+                            }}
+                            accept='video/*'
+                        >
                             <Button className='w-40 h-40 boder border-dashed rounded-xl'>
                                 <div className='text-center'>+ Click để tải lên <br /> video</div>
                             </Button>
-                            {/* <div className='ml-4'>
-                                {form.getFieldValue('file_path') && <video src={getImageUrl(form.getFieldValue('file_path'))} controls className="aspect-video" height={160}/>}
-                            </div> */}
+                        </Upload>
+                        <div className='ml-4 h-40'>
+                            {video && <video src={getImageUrl(video)} controls className="aspect-video h-40"/>}
                         </div>
-                    </Upload>
-
+                    </div>
                 </Form.Item>
 
                 <div className='grid md:grid-cols-3 gap-4'>
                     <Form.Item name="is_free">
                         <Checkbox
-                            checked={form.getFieldValue('is_free') === 1}
+                            defaultChecked={ formData.is_free === 1 }
                             onChange={(e) => form.setFieldsValue({ is_free: e.target.checked ? 1 : 0 })}
                         >
                             Miễn phí
@@ -124,7 +129,7 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
 
                     <Form.Item name="is_important">
                         <Checkbox
-                            checked={form.getFieldValue('is_important') === 1}
+                            defaultChecked={formData.is_important === 1}
                             onChange={(e) => form.setFieldsValue({ is_important: e.target.checked ? 1 : 0 })}
                         >
                             Quan trọng
@@ -133,7 +138,7 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
 
                     <Form.Item name="is_featured">
                         <Checkbox
-                            checked={form.getFieldValue('is_featured') === 1}
+                            defaultChecked={formData.is_featured === 1}
                             onChange={(e) => form.setFieldsValue({ is_featured: e.target.checked ? 1 : 0 })}
                         >
                             Nổi bật
