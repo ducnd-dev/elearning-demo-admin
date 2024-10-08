@@ -1,4 +1,4 @@
-import { UnorderedListOutlined } from '@ant-design/icons';
+import { UnorderedListOutlined, UserOutlined } from '@ant-design/icons';
 
 export const menu = [
     {
@@ -7,4 +7,10 @@ export const menu = [
         icon: <UnorderedListOutlined />,
         link: '/categories',
     },
+    {
+        id: 2,
+        name: 'Người dùng',
+        icon: <UserOutlined />,
+        link: '/users',
+    }
 ]

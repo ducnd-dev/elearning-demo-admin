@@ -1,5 +1,5 @@
 import axiosInstanceWithToken from "../constants/api";
-const version = '/v1';
+const version = '/v1/admin';
 export default {
     gets: (params) => axiosInstanceWithToken.get(`${version}/categories`, { params }),
     get: (id) => axiosInstanceWithToken.get(`${version}/categories/${id}`),

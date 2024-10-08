@@ -14,6 +14,9 @@ import CourseDetail from './pages/Course/CourseDetail';
 import CreateCourse from './pages/Course/CreateCourse';
 import CategoriesList from './pages/Category/CourseList';
 import CategoriesDetail from './pages/Category/CategoriesDetail';
+import AccountList from './pages/Account/AccountList';
+import AccountDetail from './pages/Account/AccountDetail';
+import CreateAccount from './pages/Account/CreateAccount';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,7 +53,9 @@ function App() {
           <Route path="/courses/create" element={<CreateCourse />} />
           <Route path="/courses/:id" element={<CourseDetail />} />
           <Route path='/categories' element={ <CategoriesList />} />
-          {/* <Route path="/categories/create" element={<CreateCategories />} /> */}
+          <Route path="/users" element={<AccountList />} />
+          <Route path="/users/:id" element={<AccountDetail />} />
+          <Route path="/users/create" element={<CreateAccount />} />
           <Route path="/categories/:id" element={<CategoriesDetail />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>
