@@ -95,7 +95,9 @@ const ListSeting = () => {
                                 <Form.Item label="Link youtube" name='link_youtube'>
                                     <Input placeholder='Nhập link youtube' />
                                 </Form.Item>
-                                
+                                <Form.Item label="Giá khóa học" name='price'>
+                                    <Input placeholder='Nhập giá khóa học' />
+                                </Form.Item>
                             </div>
                             <Form.Item label="Địa chỉ" name='address'>
                                 <Input placeholder='Nhập địa chỉ' />
