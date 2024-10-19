@@ -18,6 +18,7 @@ import AccountList from './pages/Account/AccountList';
 import AccountDetail from './pages/Account/AccountDetail';
 import CreateAccount from './pages/Account/CreateAccount';
 import ListSeting from './pages/Setting/ListSeting';
+import DashboardSetting from './pages/Setting/DashboardSetting';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -59,6 +60,7 @@ function App() {
           <Route path="/users/create" element={<CreateAccount />} />
           <Route path="/categories/:id" element={<CategoriesDetail />} />
           <Route path="/settings" element={<ListSeting />} />
+          <Route path="/builder" element={<DashboardSetting />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>
         <Route path="/auth/signin" element={<SignIn />} />
