@@ -38,7 +38,7 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
             const formData = new FormData();
             formData.append('file', file);
             // const res = await apiUpload.uploadFile(formData);
-            const res = await axios.post(`${baseURL}/api/v1/admin/upload`, formData, {
+            const res = await axios.post(`${baseURL}/v1/admin/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token?.replace(/['"]+/g, '')}`
@@ -137,7 +137,7 @@ const ModalCourseMaterial = ({ show, handleClose, handleSubmit, formData = initi
                         </div>
                     </div>
                 </Form.Item>
-                {progress && loading && <Progress percent={progress} />}
+                {progress > 0 && loading && <Progress percent={progress} />}
 
                 <div className='grid md:grid-cols-3 gap-4'>
                     <Form.Item name="is_free">
