@@ -1,7 +1,7 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
-// const baseURL = 'https://khanhhung-api.cuongdesign.net/api';
-export const baseURL = 'http://127.0.0.1:8000/api';
+export const baseURL = 'https://khanhhung-api.cuongdesign.net/api';
+// export const baseURL = 'http://127.0.0.1:8000/api';
 const headers = {
     'Content-Type': ' application/json',
     accept: 'application/json',
