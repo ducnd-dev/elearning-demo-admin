@@ -19,6 +19,8 @@ import AccountDetail from './pages/Account/AccountDetail';
 import CreateAccount from './pages/Account/CreateAccount';
 import ListSeting from './pages/Setting/ListSeting';
 import DashboardSetting from './pages/Setting/DashboardSetting';
+import PostList from './pages/Post/PostList';
+import PostDetail from './pages/Post/PostDetail';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -60,6 +62,9 @@ function App() {
           <Route path="/users/create" element={<CreateAccount />} />
           <Route path="/categories/:id" element={<CategoriesDetail />} />
           <Route path="/settings" element={<ListSeting />} />
+          <Route path="/posts" element={<PostList />} />
+          <Route path='/posts/create' element={<PostDetail />} />
+          <Route path="/posts/:id" element={<PostDetail />} />
           <Route path="/builder" element={<DashboardSetting />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>

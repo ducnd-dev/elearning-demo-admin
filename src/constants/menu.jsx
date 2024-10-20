@@ -1,4 +1,4 @@
-import { HomeOutlined, SettingOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons';
+import { FormOutlined, HomeOutlined, SettingOutlined, UnorderedListOutlined, UserOutlined } from '@ant-design/icons';
 
 export const menu = [
     {
@@ -12,6 +12,12 @@ export const menu = [
         name: 'Khóa học',
         icon: <UnorderedListOutlined />,
         link: '/categories',
+    },
+    {
+        id: 5,
+        name: 'Bài viết',
+        icon: <FormOutlined />,
+        link: '/posts',
     },
     {
         id: 2,

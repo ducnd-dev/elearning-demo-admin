@@ -134,7 +134,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                       fill=""
                     />
                   </svg>
-                  Trang chủ
+                  Dashboard
                 </NavLink>
               </li>
             </ul>
