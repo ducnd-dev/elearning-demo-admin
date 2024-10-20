@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import api from '../../api/post'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
+import TextEditor from '../../components/TextEditor'
 // import ReactRichEditor from 'react-rich-text-editor'
 
 const PostDetail = () => {
@@ -119,6 +120,7 @@ const PostDetail = () => {
                                 showAll={true}
                                 onCodeChange={(value) => form.setFieldsValue({ content: value })}
                             /> */}
+                            <TextEditor />
                         </Form.Item>
                     </Form>
                 </div>
