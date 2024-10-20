@@ -128,9 +128,6 @@ const OrderList = () => {
             <ToastContainer />
             <Breadcrumb pageName="Danh sách đơn hàng" />
             <CommonFilter filter={filter} setFilter={setFilter} sortBy={null} />
-            <div className="flex justify-end">
-                <Button className="mb-4 bg-pink-700 text-white" onClick={() => navigate('/users/create')}>+ Thêm mới</Button>
-            </div>
             <Table
                 columns={columns} dataSource={datas} rowKey='id'
                 pagination={{
