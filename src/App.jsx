@@ -21,6 +21,7 @@ import ListSeting from './pages/Setting/ListSeting';
 import DashboardSetting from './pages/Setting/DashboardSetting';
 import PostList from './pages/Post/PostList';
 import PostDetail from './pages/Post/PostDetail';
+import OrderList from './pages/Order/OrderList';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -65,6 +66,7 @@ function App() {
           <Route path="/posts" element={<PostList />} />
           <Route path='/posts/create' element={<PostDetail />} />
           <Route path="/posts/:id" element={<PostDetail />} />
+          <Route path="/orders" element={<OrderList />} />
           <Route path="/builder" element={<DashboardSetting />} />
           <Route path="unauthorized" element={<UnAuth />} />
         </Route>
