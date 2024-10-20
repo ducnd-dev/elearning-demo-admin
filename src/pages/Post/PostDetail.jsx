@@ -1,11 +1,14 @@
-import { Button, Form, Input, Progress, Spin, Upload } from 'antd'
+import { Button, Form, Image, Input, Progress, Spin, Upload } from 'antd'
 import React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import api from '../../api/post'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
 import TextEditor from '../../components/TextEditor'
-// import ReactRichEditor from 'react-rich-text-editor'
+import { getImageUrl } from '../../common'
+import axios from 'axios'
+import { baseURL } from '../../constants/api'
+import { useAuth } from '../../hooks/useAuth'
 
 const PostDetail = () => {
     const { id } = useParams();
@@ -13,6 +16,9 @@ const PostDetail = () => {
     const [loading, setLoading] = React.useState(false)
     const [image, setImage] = React.useState('')
     const [progress, setProgress] = React.useState(0)
+    const [content, setContent] = React.useState('')
+    const { token } = useAuth()
+    const navigate = useNavigate()
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -20,6 +26,8 @@ const PostDetail = () => {
                 setLoading(true)
                 const res = await api.get(id)
                 form.setFieldsValue(res.data)
+                setImage(res.data.image)
+                setContent(res.data.content)
             } catch (error) {
                 toast.error(error.msg)
             } finally {
@@ -35,13 +43,15 @@ const PostDetail = () => {
 
     const onFinish = async (values) => {
         try {
-            if (id === 'create') {
+            console.log(id);
+            
+            if (!id) {
                 await api.create(values)
             } else {
                 await api.update(id, values)
             }
             toast.success('Thành công')
-            navigate('/post')
+            navigate('/posts')
         } catch (error) {
             toast.error(error.msg)
         }
@@ -116,11 +126,16 @@ const PostDetail = () => {
                             name='content'
                             rules={[{ required: true, message: 'Please input content!' }]}
                         >
-                            {/* <ReactRichEditor height={400}
-                                showAll={true}
-                                onCodeChange={(value) => form.setFieldsValue({ content: value })}
-                            /> */}
-                            <TextEditor />
+                            <Input hidden />
+                            <TextEditor
+                                defaultValue={content}
+                                onChange={(value) => {
+                                    form.setFieldsValue({ content: value })
+                                }}
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit">Submit</Button>
                         </Form.Item>
                     </Form>
                 </div>

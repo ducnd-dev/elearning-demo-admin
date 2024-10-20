@@ -17,12 +17,20 @@ const formats = [
   'list', 'bullet', 'indent',
   'link', 'image'
 ]
-const TextEditor = () => {
+const TextEditor = ({
+  defaultValue,
+  onChange
+}) => {
+  console.log(defaultValue);
+  
   return (
     <div className="text-editor">
       <ReactQuill theme="snow"
         modules={modules}
-        formats={formats}>
+        formats={formats}
+        value={`${defaultValue}`}
+        onChange={onChange}
+      >
       </ReactQuill>
     </div>
   )

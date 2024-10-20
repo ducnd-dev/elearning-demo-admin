@@ -1,6 +1,7 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
 export const baseURL = 'https://khanhhung-api.cuongdesign.net/api';
+export const urlWeb = 'https://elearning-demo.vercel.app/';
 // export const baseURL = 'http://127.0.0.1:8000/api';
 const headers = {
     'Content-Type': ' application/json',

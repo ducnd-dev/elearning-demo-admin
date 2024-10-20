@@ -1,10 +1,11 @@
 import React from 'react'
-import { ToastContainer } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
 import api from '../../api/post'
 import { Button, Popconfirm, Space, Table } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
+import { urlWeb } from '../../constants/api'
 
 const PostList = () => {
     const [datas, setDatas] = React.useState([])
@@ -52,10 +53,10 @@ const PostList = () => {
             render: (text) => new Date(text).toLocaleString(),
         },
         {
-            title: 'Action', dataIndex: 'action', key: 'action',
+            title: 'Action', dataIndex: 'id', key: 'id',
             render: (id, record) => (
                 <Space size="middle">
-                    <Link to={`/posts/${id}`} className="text-primary">
+                    <Link to={`${urlWeb}blogs/${record.slug}`} className="text-primary">
                         <EyeOutlined />
                     </Link>
                     <Link to={`/posts/${id}`} className="text-success">
