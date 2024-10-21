@@ -56,7 +56,9 @@ const CategoriesList = () => {
           <Steps
             progressDot
             direction="vertical"
-            current={1}
+            current={
+              courses?.length || 0
+            }
             items={courses?.map((course) => ({
               title: course.title,
             })) || []}

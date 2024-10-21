@@ -31,9 +31,16 @@ const PostList = () => {
             render: (text, record) => <a className='font-bold' href={`/post/${record.id}`}>{text}</a>,
             sorter: (a, b) => a.title.localeCompare(b.title),
         },
+        // image
+        {
+            title: 'Image', dataIndex: 'image', key: 'image',
+            render: (text) => <img src={text} alt="image" style={{ width: 100 }} />,
+        },
         {
             title: 'Content', dataIndex: 'content', key: 'content',
-            render: (text) => text.slice(0, 50) + '...',
+            render: (text) => <div className='w-96'>
+                <div dangerouslySetInnerHTML={{ __html: text }} className="line-clamp-3" />
+            </div>
         },
         {
             title: 'View', dataIndex: 'views', key: 'views',

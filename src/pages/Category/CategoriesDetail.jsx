@@ -84,7 +84,9 @@ const CategoriesDetail = () => {
                     <Steps
                         progressDot
                         direction="vertical"
-                        current={1}
+                        current={
+                            detail?.courses?.length || 0
+                        }
                         items={detail?.courses?.map((course, index) => ({
                             title: <div className="font-bold text-black2">
                                 Phần {index + 1}: {course.title}
