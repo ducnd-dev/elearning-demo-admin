@@ -3,7 +3,7 @@ import { FormOutlined, HomeOutlined, SettingOutlined, UnorderedListOutlined, Use
 export const menu = [
     {
         id: 4,
-        name: 'Trang chủ',
+        name: 'Tùy chỉnh trang',
         icon: <HomeOutlined />,
         link: '/builder',
     },
