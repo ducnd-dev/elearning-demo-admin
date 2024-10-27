@@ -1,10 +1,10 @@
-import { toast, ToastContainer } from "react-toastify";
-import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 import { Button, Form, Image, Input, Spin, Upload } from "antd";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import api from "../../api/setting";
 import apiUpload from "../../api/upload";
 import { getImageUrl } from "../../common";
+import Breadcrumb from "../../components/Breadcrumbs/Breadcrumb";
 
 const ListSeting = () => {
     const [data, setData] = useState();
@@ -96,6 +96,9 @@ const ListSeting = () => {
                                     <Input placeholder='Nhập link youtube' />
                                 </Form.Item>
                                 <Form.Item label="Giá khóa học" name='price'>
+                                    <Input placeholder='Nhập giá khóa học' />
+                                </Form.Item>
+                                <Form.Item label="Giá giảm" name='sale_price'>
                                     <Input placeholder='Nhập giá khóa học' />
                                 </Form.Item>
                             </div>
