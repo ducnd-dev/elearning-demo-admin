@@ -12,6 +12,8 @@ const EventSetting = () => {
     const [loading, setLoading] = React.useState(false)
     const [filter, setFilter] = React.useState({ currentPage: 1, size: 10 })
     const [openModal, setOpenModal] = React.useState(false)
+    const [openEditModal, setOpenEditModal] = React.useState(false)
+    const [editData, setEditData] = React.useState(null)
     const [form] = Form.useForm()
 
     React.useEffect(() => {
@@ -30,9 +32,15 @@ const EventSetting = () => {
             title: 'Action', dataIndex: 'id', key: 'id',
             render: (id, record) => (
                 <Space size="middle">
-                    <Link to={`/posts/${id}`} className="text-success">
+                    <div
+                        onClick={() => {
+                            setEditData(record)
+                            setOpenEditModal(true)
+                        }}
+                        className="text-success cursor-pointer"
+                    >
                         <EditOutlined />
-                    </Link>
+                    </div>
                     <Popconfirm
                         title="Xác nhận xóa sự kiện này?"
                         description={`Bạn có chắc chắn muốn xóa sự kiện: ${record.title}?`}
@@ -89,8 +97,45 @@ const EventSetting = () => {
                 onFinish={(values) => {
                     api.create(values).then(() => {
                         toast.success('Thêm mới thành công');
-                        setFilter({ ...filter, currentPage: 1 });
                         setOpenModal(false);
+                        setFilter({ ...filter, currentPage: 1 });
+                    }).catch(err => {
+                        toast.error(err.msg);
+                    });
+                }}
+            >
+                <Form.Item
+                    label="Tên sự kiện"
+                    name="title"
+                    rules={[{ required: true, message: 'Vui lòng nhập tên sự kiện!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    label="Link"
+                    name="link"
+                    rules={[{ required: true, message: 'Vui lòng nhập link!' }]}
+                >
+                    <Input />
+                </Form.Item>
+            </Form>
+        </Modal>
+        <Modal
+            title="Sửa sự kiện"
+            onOk={() => form.submit()}
+            onCancel={() => setOpenEditModal(false)}
+            open={openEditModal}
+        >
+            <Form
+                name="basic"
+                initialValues={editData}
+                autoComplete="off"
+                layout="vertical"
+                form={form}
+                onFinish={(values) => {
+                    api.update(editData.id, values).then(() => {
+                        toast.success('Cập nhật thành công');
+                        setOpenEditModal(false);
                         setFilter({ ...filter, currentPage: 1 });
                     }).catch(err => {
                         toast.error(err.msg);
