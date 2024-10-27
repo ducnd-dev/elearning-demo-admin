@@ -7,7 +7,7 @@ import { Tabs } from 'antd'
 const PAGES = [
     { title: 'Trang chủ', key: 'home', href: "https://builderjs.cuongdesign.net/design.php?id=ColleagueCourses&type=default&token=", src: 'https://builderjs.cuongdesign.net/templates/default/ColleagueCourses' },
     { title: 'Nâng cấp', key: 'upgrade', href: "https://builderjs.cuongdesign.net/design.php?id=ColleagueCourses-upgrade&type=default&token=", src: 'https://builderjs.cuongdesign.net/templates/default/ColleagueCourses-upgrade' },
-
+    { title: 'Cảm ơn', key: 'thankyou', href: "https://builderjs.cuongdesign.net/design.php?id=ColleagueCourses-thanks&type=default&token=", src: 'https://builderjs.cuongdesign.net/templates/default/ColleagueCourses-thanks' },
 ]
 const tabItem = (item, token) => (<div>
     <div className='text-lg text-black font-semibold bg-white mb-3 shadow-1 flex justify-between items-center p-3'>
