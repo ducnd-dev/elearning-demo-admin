@@ -1,17 +1,34 @@
-import React from 'react';
-import ChartOne from '../../components/Charts/ChartOne';
-import ChartTwo from '../../components/Charts/ChartTwo';
-import ChartThree from '../../components/Charts/ChartThree';
-import MapOne from '../../components/Maps/MapOne';
-import TableOne from '../../components/Tables/TableOne';
-import ChatCard from '../../components/Chat/ChatCard';
+import { DatePicker } from 'antd';
+import React, { useEffect } from 'react';
+import api from '../../api/user';
 import CardDataStats from '../../components/CardDataStats';
-
 const Dashboard = () => {
+  const [data, setData] = React.useState();
+  const [filter, setFilter] = React.useState({
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+  });
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await api.dashboard(filter);
+      setData(res.data);
+      return;
+    };
+    fetchData();
+  }, [filter]);
+
+  const onChange = (date, dateString) => {
+    console.log(date, dateString);
+    setFilter({
+      month: date.month() + 1,
+    });
+  };
   return (
     <>
+      <DatePicker 
+        onChange={onChange} picker="month" />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats title="Doanh thu" total={data} levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -30,7 +47,7 @@ const Dashboard = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
+        {/* <CardDataStats title="Total Profit" total="$45,2K" rate="4.35%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="20"
@@ -94,10 +111,10 @@ const Dashboard = () => {
               fill=""
             />
           </svg>
-        </CardDataStats>
+        </CardDataStats> */}
       </div>
 
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
+      {/* <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <ChartOne />
         <ChartTwo />
         <ChartThree />
@@ -106,7 +123,7 @@ const Dashboard = () => {
           <TableOne />
         </div>
         <ChatCard />
-      </div>
+      </div> */}
     </>
   );
 };

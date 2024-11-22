@@ -6,4 +6,5 @@ export default {
     create: (data) => axiosInstanceWithToken.post(`${version}/users`, data),
     update: (id, data) => axiosInstanceWithToken.put(`${version}/users/${id}`, data),
     delete: (id) => axiosInstanceWithToken.delete(`${version}/users/${id}`),
+    dashboard: (params) => axiosInstanceWithToken.get(`${version}/dashboard`, { params }),
 }
