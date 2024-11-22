@@ -31,11 +31,11 @@ export function formatGAData(response) {
 
 export function generateUniqueCollorArray(length) {
   const uniqueArray = [];
-    
+
     while (uniqueArray.length < length) {
-        const newItem = faker.color.rgb(); 
-        if (!uniqueArray.includes(newItem)) { 
-            uniqueArray.push(newItem); 
+        const newItem = faker.color.rgb();
+        if (!uniqueArray.includes(newItem)) {
+            uniqueArray.push(newItem);
         }
     }
     return uniqueArray;
@@ -105,4 +105,7 @@ export function getMockApiGetTrafficHistory () {
       }
   }, {count: 10})
   return mockData
+}
+export function numberFormat(number) {
+  return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(number);
 }
