@@ -31,7 +31,7 @@ const Dashboard = () => {
         defaultValue={
           dayjs(filter.year + '-' + filter.month, 'YYYY-MM')
         }
-        format={'MM/YYYY'}s
+        format={'MM/YYYY'}
         placeholder='Chọn tháng'
         onChange={onChange} picker="month" />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 mt-4">
